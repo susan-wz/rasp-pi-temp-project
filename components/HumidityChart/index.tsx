@@ -39,23 +39,10 @@ export function HumidityChart({ sheetData }: SheetDataProps) {
     },
   };
 
+  let hourlyData
   if (sheetData) {
-    getHourlyDataForDateRange(
-      sheetData,
-      "2022-09-07",
-      "14:00",
-      "2022-09-09",
-      "01:00"
-    );
+    hourlyData = getHourlyDataForDateRange(sheetData);
   }
-
-  // get sheetdata, return an array of every entry that's on the hour
-  // if none for the hour for some reason, then skip
-  // can come back to this to get one that's +/- a minute
-
-  const hourlyData = sheetData?.filter(
-    (entry) => entry[1].substring(3) === "00"
-  );
 
   const labels = hourlyData?.map((entry) => {
     return `${entry[0]} ${entry[1]}`;
@@ -69,6 +56,7 @@ export function HumidityChart({ sheetData }: SheetDataProps) {
         data: hourlyData?.map((entry) => entry[3]),
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
+        lineTension: 0.4
       },
     ],
   };

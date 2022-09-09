@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { SheetDataProps } from "../../types";
+import { getHourlyDataForDateRange } from "../../utils/getHourlyDataForDateRange";
 
 ChartJS.register(
   CategoryScale,
@@ -38,13 +39,10 @@ export function TemperatureChart({ sheetData }: SheetDataProps) {
     },
   };
 
-  // get sheetdata, return an array of every entry that's on the hour
-  // if none for the hour for some reason, then skip
-  // can come back to this to get one that's +/- a minute
-
-  const hourlyData = sheetData?.filter(
-    (entry) => entry[1].substring(3) === "00"
-  );
+  let hourlyData
+  if (sheetData) {
+    hourlyData = getHourlyDataForDateRange(sheetData);
+  }
 
   const labels = hourlyData?.map((entry) => {
     return `${entry[0]} ${entry[1]}`;
@@ -58,6 +56,7 @@ export function TemperatureChart({ sheetData }: SheetDataProps) {
         data: hourlyData?.map((entry) => entry[2]),
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
+        lineTension: 0.4
       },
     ],
   };
