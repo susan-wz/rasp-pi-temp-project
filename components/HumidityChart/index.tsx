@@ -21,7 +21,7 @@ ChartJS.register(
   Legend
 );
 
-export function Chart({ sheetData }: SheetDataProps) {
+export function HumidityChart({ sheetData }: SheetDataProps) {
   const options = {
     responsive: true,
     plugins: {
@@ -30,7 +30,7 @@ export function Chart({ sheetData }: SheetDataProps) {
       },
       title: {
         display: true,
-        text: `How hot is it in Susan's living room?`,
+        text: `How humid is it in Susan's living room?`,
         font: {
           size: 36,
         },
@@ -45,7 +45,6 @@ export function Chart({ sheetData }: SheetDataProps) {
   const hourlyData = sheetData?.filter(
     (entry) => entry[1].substring(3) === "00"
   );
-  console.log(hourlyData);
 
   const labels = hourlyData?.map((entry) => {
     return `${entry[0]} ${entry[1]}`;
@@ -54,12 +53,6 @@ export function Chart({ sheetData }: SheetDataProps) {
   const data = {
     labels,
     datasets: [
-      {
-        label: "Temperature",
-        data: hourlyData?.map((entry) => entry[2]),
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
       {
         label: "Humidity",
         data: hourlyData?.map((entry) => entry[3]),

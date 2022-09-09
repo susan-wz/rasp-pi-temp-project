@@ -4,7 +4,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 
-import { Chart } from "../components/Chart";
+import { TemperatureChart } from "../components/TemperatureChart";
+import { HumidityChart } from "../components/HumidityChart";
 import { SheetDataProps } from "../types";
 
 export async function getServerSideProps() {
@@ -38,7 +39,8 @@ const Home: NextPage<SheetDataProps> = ({ sheetData }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <Chart sheetData={sheetData} />
+        <TemperatureChart sheetData={sheetData} />
+        <HumidityChart sheetData={sheetData} />
       </main>
     </div>
   );
