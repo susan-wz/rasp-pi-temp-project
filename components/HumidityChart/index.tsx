@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { SheetDataProps } from "../../types";
+import { getHourlyDataForDateRange } from "../../utils/getHourlyDataForDateRange";
 
 ChartJS.register(
   CategoryScale,
@@ -37,6 +38,16 @@ export function HumidityChart({ sheetData }: SheetDataProps) {
       },
     },
   };
+
+  if (sheetData) {
+    getHourlyDataForDateRange(
+      sheetData,
+      "2022-09-07",
+      "14:00",
+      "2022-09-09",
+      "01:00"
+    );
+  }
 
   // get sheetdata, return an array of every entry that's on the hour
   // if none for the hour for some reason, then skip
