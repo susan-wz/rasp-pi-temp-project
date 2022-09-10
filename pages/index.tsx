@@ -4,22 +4,23 @@ import styles from "../styles/Home.module.css";
 
 import { TemperatureChart } from "../components/TemperatureChart";
 import { HumidityChart } from "../components/HumidityChart";
-import { SheetDataProps } from "../types";
+import { PageProps } from "../types";
 import { getForecast } from "../services/openMeteo";
-import { getGoogleSheetData } from '../services/googleSheets'
+import { getGoogleSheetData } from "../services/googleSheets";
 
 export async function getServerSideProps() {
-  const sheetData = await getGoogleSheetData()
-  const forecast = await getForecast()
+  const sheetData = await getGoogleSheetData();
+  const forecast = await getForecast();
 
   return {
     props: {
       sheetData,
+      forecast,
     },
   };
 }
 
-const Home: NextPage<SheetDataProps> = ({ sheetData }) => {
+const Home: NextPage<PageProps> = ({ sheetData, forecast }) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -28,7 +29,7 @@ const Home: NextPage<SheetDataProps> = ({ sheetData }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <TemperatureChart sheetData={sheetData} />
+        <TemperatureChart sheetData={sheetData} forecast={forecast} />
         <HumidityChart sheetData={sheetData} />
       </main>
     </div>

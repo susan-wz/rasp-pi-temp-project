@@ -6,7 +6,6 @@ export const getForecast = async () => {
     let response = await fetch(WEATHER_API_URL);
     if (response.status === 200) {
       let data = await response.json();
-      console.log("data", data?.hourly);
       return data?.hourly;
     } else {
       throw "Error fetching users list";
