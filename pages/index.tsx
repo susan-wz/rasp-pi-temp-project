@@ -1,5 +1,3 @@
-import { google } from "googleapis";
-
 import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
@@ -7,21 +5,12 @@ import styles from "../styles/Home.module.css";
 import { TemperatureChart } from "../components/TemperatureChart";
 import { HumidityChart } from "../components/HumidityChart";
 import { SheetDataProps } from "../types";
+import { getForecast } from "../services/openMeteo";
+import { getGoogleSheetData } from '../services/googleSheets'
 
 export async function getServerSideProps() {
-  const auth = await google.auth.getClient({
-    scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
-  });
-
-  const sheets = google.sheets({ version: "v4", auth });
-  const range = `Sheet1!A:D`;
-
-  const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.SHEET_ID,
-    range,
-  });
-
-  const sheetData = response?.data?.values;
+  const sheetData = await getGoogleSheetData()
+  const forecast = await getForecast()
 
   return {
     props: {
