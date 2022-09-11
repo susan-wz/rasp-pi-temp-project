@@ -8,3 +8,5 @@ export interface PageProps {
 }
 
 export type SheetDataType = string[][] | undefined | null;
+
+export type SingleWeatherLineType = Array<{}>

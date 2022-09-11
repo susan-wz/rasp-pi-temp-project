@@ -13,7 +13,7 @@ export async function getServerSideProps() {
   const sheetData = await getGoogleSheetData();
   const forecast = await getForecast();
   const historicalWeather = await getHistoricalWeather()
-  // console.log('historical', historicalWeather)
+  console.log('historical', historicalWeather)
 
   return {
     props: {
