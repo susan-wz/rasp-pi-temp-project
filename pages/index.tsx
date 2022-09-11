@@ -7,10 +7,13 @@ import { HumidityChart } from "../components/HumidityChart";
 import { PageProps } from "../types";
 import { getForecast } from "../services/openMeteo";
 import { getGoogleSheetData } from "../services/googleSheets";
+import { getHistoricalWeather } from '../services/worldWeather'
 
 export async function getServerSideProps() {
   const sheetData = await getGoogleSheetData();
   const forecast = await getForecast();
+  const historicalWeather = await getHistoricalWeather()
+  // console.log('historical', historicalWeather)
 
   return {
     props: {
