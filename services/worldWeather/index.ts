@@ -10,7 +10,7 @@ export const getHistoricalWeather = async (): Promise<
   const response = await worldWeather(worldWeatherUrl);
 
   const weatherData = response?.data?.weather;
-  const historicalWeather = {};
+  const historicalWeather: SingleWeatherLineType = {};
   if (weatherData) {
     weatherData.forEach((day) => {
       day.hourly.forEach((hour) => {
@@ -21,6 +21,6 @@ export const getHistoricalWeather = async (): Promise<
         historicalWeather[label] = temp;
       });
     });
-    return { temp: historicalWeather, humidity: [] };
+    return { temp: historicalWeather, humidity: {} };
   }
 };

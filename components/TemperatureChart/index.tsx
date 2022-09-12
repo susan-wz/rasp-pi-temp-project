@@ -9,7 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { PageProps } from "../../types";
+import { TempChartProps } from "../../types";
 import { getLabelsArray } from "../../utils/getLabelsArray";
 
 ChartJS.register(
@@ -26,7 +26,7 @@ export function TemperatureChart({
   loggedTemp,
   forecastTemp,
   historicalTemp,
-}: PageProps) {
+}: TempChartProps) {
   const options = {
     responsive: true,
     plugins: {

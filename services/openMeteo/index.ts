@@ -1,4 +1,5 @@
 import { openMeteo } from "./gateway";
+import { SingleWeatherLineType } from "../../types";
 
 export const getForecast = async () => {
   const FORECAST_API_URL =
@@ -13,7 +14,7 @@ export const getForecast = async () => {
       timeLabels.push(`${date} ${time}`);
     });
 
-    const forecast = {};
+    const forecast: SingleWeatherLineType = {};
     timeLabels.forEach((time, index) => {
       forecast[time] = response.hourly.temperature_2m[index];
     });

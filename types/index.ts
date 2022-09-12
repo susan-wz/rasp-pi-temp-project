@@ -11,7 +11,13 @@ export type WeatherServiceResponse = {
   humidity: SingleWeatherLineType;
 };
 
-export type SingleWeatherLineType = { [key: string]: number }[];
+export interface TempChartProps {
+  loggedTemp: SingleWeatherLineType
+  forecastTemp: SingleWeatherLineType
+  historicalTemp: SingleWeatherLineType
+}
+
+export type SingleWeatherLineType = { [key: string]: number };
 
 export interface WorldWeatherHour {
   time: string;

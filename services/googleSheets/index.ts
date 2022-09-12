@@ -1,5 +1,5 @@
 import { google } from "googleapis";
-import { getHourlyIncrementsForDateRange } from "../../utils/getHourlyIncrementsForDateRange";
+import { SingleWeatherLineType } from "../../types";
 
 export const getGoogleSheetData = async () => {
   const auth = await google.auth.getClient({
@@ -20,16 +20,20 @@ export const getGoogleSheetData = async () => {
     return minuteData[1].substring(3) === "00";
   });
 
-  const tempLogs = {};
-  hourlyData.forEach((log) => {
-    const time = `${log[0]} ${log[1]}`;
-    tempLogs[time] = parseInt(log[2]);
-  });
-  const humidityLogs = {};
-  hourlyData.forEach((log) => {
-    const time = `${log[0]} ${log[1]}`;
-    humidityLogs[time] = parseInt(log[3]);
-  });
+  const tempLogs: SingleWeatherLineType = {};
+  const humidityLogs: SingleWeatherLineType = {};
+
+  if (hourlyData) {
+    hourlyData.forEach((log) => {
+      const time = `${log[0]} ${log[1]}`;
+      tempLogs[time] = parseInt(log[2]);
+    });
+
+    hourlyData.forEach((log) => {
+      const time = `${log[0]} ${log[1]}`;
+      humidityLogs[time] = parseInt(log[3]);
+    });
+  }
 
   return { temp: tempLogs, humidity: humidityLogs };
 };
