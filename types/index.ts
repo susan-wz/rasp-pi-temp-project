@@ -1,13 +1,15 @@
 export interface PageProps {
-  sheetData: SheetDataType;
-  forecast: {
-    time: string[];
-    temperature_2m: number[];
-    relativehumidity_2m: number[];
-  };
+  sheetData: WeatherServiceResponse;
+  forecast: WeatherServiceResponse;
+  historicalWeather: WeatherServiceResponse;
 }
 
 export type SheetDataType = string[][] | undefined | null;
+
+export type WeatherServiceResponse = {
+  temp: SingleWeatherLineType;
+  humidity: SingleWeatherLineType;
+};
 
 export type SingleWeatherLineType = { [key: string]: number }[];
 
@@ -29,7 +31,7 @@ export interface WorldWeatherResponse {
 
 export interface OpenMeteoResponse {
   hourly: {
-    time: string[]
-    temperature_2m: number[]
-  }
+    time: string[];
+    temperature_2m: number[];
+  };
 }

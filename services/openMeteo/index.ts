@@ -13,14 +13,10 @@ export const getForecast = async () => {
       timeLabels.push(`${date} ${time}`);
     });
 
-    const forecast: Array<{}> = [];
+    const forecast = {};
     timeLabels.forEach((time, index) => {
-      forecast.push({ [time]: response.hourly.temperature_2m[index] });
+      forecast[time] = response.hourly.temperature_2m[index];
     });
-
-    // forecast is the right data structure but i haven't returned it instead of response yet
-
-    console.log("response", response);
-    return response.hourly;
+    return { temp: forecast, humidity: [] };
   }
 };

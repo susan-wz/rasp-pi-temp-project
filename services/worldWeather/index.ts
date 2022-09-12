@@ -1,8 +1,8 @@
-import { SingleWeatherLineType } from "../../types";
+import { WeatherServiceResponse, SingleWeatherLineType } from "../../types";
 import { worldWeather } from "./gateway";
 
 export const getHistoricalWeather = async (): Promise<
-  SingleWeatherLineType | undefined
+  WeatherServiceResponse | undefined
 > => {
   const startDate = "2022-09-07";
   const today = "2022-09-10";
@@ -10,7 +10,7 @@ export const getHistoricalWeather = async (): Promise<
   const response = await worldWeather(worldWeatherUrl);
 
   const weatherData = response?.data?.weather;
-  const historicalWeather: SingleWeatherLineType = [];
+  const historicalWeather = {};
   if (weatherData) {
     weatherData.forEach((day) => {
       day.hourly.forEach((hour) => {
@@ -18,9 +18,9 @@ export const getHistoricalWeather = async (): Promise<
           .slice(0, -2)
           .padStart(2, "0")}:00`;
         const temp = parseInt(hour.tempC);
-        historicalWeather.push({ [label]: temp });
+        historicalWeather[label] = temp;
       });
     });
-    return historicalWeather;
+    return { temp: historicalWeather, humidity: [] };
   }
 };

@@ -19,13 +19,17 @@ export const getGoogleSheetData = async () => {
   const hourlyData = sheetData?.filter((minuteData) => {
     return minuteData[1].substring(3) === "00";
   });
-  
-  // this one has to return two, one for humidity too
-  const tempLogs = hourlyData?.map((hour) => {
-    return { [`${hour[0]} ${hour[1]}`]: parseInt(hour[2]) };
+
+  const tempLogs = {};
+  hourlyData.forEach((log) => {
+    const time = `${log[0]} ${log[1]}`;
+    tempLogs[time] = parseInt(log[2]);
   });
-  const humidityLogs = hourlyData?.map((hour) => {
-    return { [`${hour[0]} ${hour[1]}`]: parseInt(hour[3]) };
+  const humidityLogs = {};
+  hourlyData.forEach((log) => {
+    const time = `${log[0]} ${log[1]}`;
+    humidityLogs[time] = parseInt(log[3]);
   });
-  return sheetData;
+
+  return { temp: tempLogs, humidity: humidityLogs };
 };

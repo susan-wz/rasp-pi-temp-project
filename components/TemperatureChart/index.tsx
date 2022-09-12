@@ -10,7 +10,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { PageProps } from "../../types";
-import { getHourlyDataForDateRange } from "../../utils/getHourlyDataForDateRange";
+import { getLabelsArray } from "../../utils/getLabelsArray";
 
 ChartJS.register(
   CategoryScale,
@@ -22,7 +22,11 @@ ChartJS.register(
   Legend
 );
 
-export function TemperatureChart({ sheetData, forecast }: PageProps) {
+export function TemperatureChart({
+  loggedTemp,
+  forecastTemp,
+  historicalTemp,
+}: PageProps) {
   const options = {
     responsive: true,
     plugins: {
@@ -39,60 +43,51 @@ export function TemperatureChart({ sheetData, forecast }: PageProps) {
     },
   };
 
-  let hourlyData;
-  if (sheetData) {
-    hourlyData = getHourlyDataForDateRange(sheetData);
-  }
+  const labels = getLabelsArray(loggedTemp, forecastTemp, historicalTemp);
 
-  const hoursToForecast = 48;
-
-  // get past hours for labels
-  const pastHoursLabels = hourlyData?.map((entry) => {
-    return `${entry[0]} ${entry[1]}`;
+  const loggedTempLine = labels.map((label) => {
+    return loggedTemp[label];
   });
-
-  // get forecasted hours for labels
-  const latestHour = hourlyData[hourlyData?.length - 1];
-
-  // open meteo returns data from start of day, this adds an offset to current hour
-  const forecastStartIndex = forecast.time.findIndex(
-    (entry) =>
-      entry.split("T")[0] === latestHour[0] &&
-      entry.split("T")[1] === latestHour[1]
-  );
-  
-  const forecastedHourLabels = forecast.time
-    .slice(forecastStartIndex, hoursToForecast)
-    .map((entry) => {
-      const date = entry.split("T")[0];
-      const time = entry.split("T")[1];
-      return `${date} ${time}`;
-    });
-
-  const labels = pastHoursLabels?.concat(forecastedHourLabels);
-
-  const tempForecast = [...Array(hourlyData?.length)].concat(
-    forecast.temperature_2m.slice(forecastStartIndex, hoursToForecast)
-  );
+  const historicalTempLine = labels.map((label) => {
+    return historicalTemp[label];
+  });
+  const forecastTempLine = labels.map((label) => {
+    return forecastTemp[label];
+  });
 
   const data = {
     labels,
     datasets: [
       {
-        label: "Temperature",
-        data: hourlyData?.map((entry) => entry[2]),
+        label: "Logged Temperature",
+        data: loggedTempLine,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
         lineTension: 0.4,
       },
       {
-        label: "Forecast",
-        data: tempForecast,
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        label: "Historical Temperature",
+        data: historicalTempLine,
+        borderColor: "blue",
+        backgroundColor: "blue",
+        lineTension: 0.4,
+      },
+      {
+        label: "Outside Forecast",
+        data: forecastTempLine,
+        borderColor: "blue",
+        backgroundColor: "blue",
         lineTension: 0.4,
         borderDash: [8, 8],
       },
+      // {
+      //   label: "Inside Forecast",
+      //   data: forecastTempLine,
+      //   borderColor: "rgb(255, 99, 132)",
+      //   backgroundColor: "rgba(255, 99, 132, 0.5)",
+      //   lineTension: 0.4,
+      //   borderDash: [8, 8],
+      // },
     ],
   };
   return <Line options={options} data={data} />;
