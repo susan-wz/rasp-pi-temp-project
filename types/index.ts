@@ -2,6 +2,7 @@ export interface PageProps {
   sheetData: WeatherServiceResponse;
   forecast: WeatherServiceResponse;
   historicalWeather: WeatherServiceResponse;
+  insideForecastGuess: WeatherServiceResponse
 }
 
 export type SheetDataType = string[][] | undefined | null;
@@ -15,6 +16,7 @@ export interface TempChartProps {
   loggedTemp: SingleWeatherLineType
   forecastTemp: SingleWeatherLineType
   historicalTemp: SingleWeatherLineType
+  insideForecastTemp: SingleWeatherLineType
 }
 
 export type SingleWeatherLineType = { [key: string]: number };

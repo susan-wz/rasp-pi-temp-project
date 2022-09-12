@@ -8,18 +8,21 @@ import { PageProps } from "../types";
 import { getForecast } from "../services/openMeteo";
 import { getGoogleSheetData } from "../services/googleSheets";
 import { getHistoricalWeather } from "../services/worldWeather";
+import { getInsideForecastGuess } from "../services/guessingTemp";
 
 export async function getServerSideProps() {
   const sheetData = await getGoogleSheetData();
   const forecast = await getForecast();
   const historicalWeather = await getHistoricalWeather();
   // const historicalWeather = { temp: {}, humidity: {} };
+  const insideForecastGuess = getInsideForecastGuess(sheetData, forecast);
 
   return {
     props: {
       sheetData,
       forecast,
       historicalWeather,
+      insideForecastGuess,
     },
   };
 }
@@ -28,11 +31,14 @@ const Home: NextPage<PageProps> = ({
   sheetData,
   forecast,
   historicalWeather,
+  insideForecastGuess,
 }) => {
   const { temp: loggedTemp, humidity: loggedHumidity } = sheetData;
   const { temp: forecastTemp, humidity: forecastHumidity } = forecast;
   const { temp: historicalTemp, humidity: historicalHumidity } =
     historicalWeather;
+  const { temp: insideForecastTemp, humidity: insideForecastHumidity } =
+    insideForecastGuess;
   return (
     <div className={styles.container}>
       <Head>
@@ -41,9 +47,16 @@ const Home: NextPage<PageProps> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <TemperatureChart {...{ loggedTemp, forecastTemp, historicalTemp }} />
+        <TemperatureChart
+          {...{ loggedTemp, forecastTemp, historicalTemp, insideForecastTemp }}
+        />
         <HumidityChart
-          {...{ loggedHumidity, forecastHumidity, historicalHumidity }}
+          {...{
+            loggedHumidity,
+            forecastHumidity,
+            historicalHumidity,
+            insideForecastHumidity,
+          }}
         />
       </main>
     </div>

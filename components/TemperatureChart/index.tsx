@@ -11,7 +11,7 @@ import {
 import { Line } from "react-chartjs-2";
 import { TempChartProps } from "../../types";
 import { getLabelsArray } from "../../utils/getLabelsArray";
-import { getLatestHour } from "../../utils/getLatestHour"
+import { getLatestHour } from "../../utils/getLatestHour";
 
 ChartJS.register(
   CategoryScale,
@@ -27,6 +27,7 @@ export function TemperatureChart({
   loggedTemp,
   forecastTemp,
   historicalTemp,
+  insideForecastTemp,
 }: TempChartProps) {
   const options = {
     responsive: true,
@@ -55,10 +56,13 @@ export function TemperatureChart({
   const forecastTempLine = labels.map((label) => {
     return forecastTemp[label];
   });
+  const insideForecastLine = labels.map((label) => {
+    return insideForecastTemp[label];
+  });
 
-  const nowIndex = labels.findIndex((label) => label === getLatestHour())
+  const nowIndex = labels.findIndex((label) => label === getLatestHour());
   if (nowIndex !== -1) {
-    labels[nowIndex] = "Now"
+    labels[nowIndex] = "Now";
   }
 
   const data = {
@@ -86,14 +90,14 @@ export function TemperatureChart({
         lineTension: 0.4,
         borderDash: [8, 8],
       },
-      // {
-      //   label: "Inside Forecast",
-      //   data: forecastTempLine,
-      //   borderColor: "rgb(255, 99, 132)",
-      //   backgroundColor: "rgba(255, 99, 132, 0.5)",
-      //   lineTension: 0.4,
-      //   borderDash: [8, 8],
-      // },
+      {
+        label: "Inside Forecast",
+        data: insideForecastLine,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        lineTension: 0.4,
+        borderDash: [8, 8],
+      },
     ],
   };
   return <Line options={options} data={data} />;

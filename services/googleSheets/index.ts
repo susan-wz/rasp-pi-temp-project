@@ -1,7 +1,9 @@
 import { google } from "googleapis";
-import { SingleWeatherLineType } from "../../types";
+import { SingleWeatherLineType, WeatherServiceResponse } from "../../types";
 
-export const getGoogleSheetData = async () => {
+export const getGoogleSheetData = async (): Promise<
+  WeatherServiceResponse | undefined
+> => {
   const auth = await google.auth.getClient({
     scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
   });
