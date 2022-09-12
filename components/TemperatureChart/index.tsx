@@ -11,6 +11,7 @@ import {
 import { Line } from "react-chartjs-2";
 import { TempChartProps } from "../../types";
 import { getLabelsArray } from "../../utils/getLabelsArray";
+import { getLatestHour } from "../../utils/getLatestHour"
 
 ChartJS.register(
   CategoryScale,
@@ -43,7 +44,7 @@ export function TemperatureChart({
     },
   };
 
-  const labels = getLabelsArray(loggedTemp, forecastTemp, historicalTemp);
+  const labels = getLabelsArray();
 
   const loggedTempLine = labels.map((label) => {
     return loggedTemp[label];
@@ -54,6 +55,11 @@ export function TemperatureChart({
   const forecastTempLine = labels.map((label) => {
     return forecastTemp[label];
   });
+
+  const nowIndex = labels.findIndex((label) => label === getLatestHour())
+  if (nowIndex !== -1) {
+    labels[nowIndex] = "Now"
+  }
 
   const data = {
     labels,

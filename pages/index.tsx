@@ -12,8 +12,8 @@ import { getHistoricalWeather } from "../services/worldWeather";
 export async function getServerSideProps() {
   const sheetData = await getGoogleSheetData();
   const forecast = await getForecast();
-  // const historicalWeather = await getHistoricalWeather();
-  const historicalWeather = { temp: {}, humidity: {} };
+  const historicalWeather = await getHistoricalWeather();
+  // const historicalWeather = { temp: {}, humidity: {} };
 
   return {
     props: {

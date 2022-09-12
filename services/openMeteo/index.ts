@@ -1,5 +1,6 @@
 import { openMeteo } from "./gateway";
 import { SingleWeatherLineType } from "../../types";
+import { getLatestHour } from "../../utils/getLatestHour";
 
 export const getForecast = async () => {
   const FORECAST_API_URL =
@@ -7,11 +8,20 @@ export const getForecast = async () => {
 
   const response = await openMeteo(FORECAST_API_URL);
   const timeLabels: string[] = [];
+  const latestHour = getLatestHour();
+  let start = false;
+  console.log("latesthour", latestHour);
+
   if (response) {
     response.hourly.time.forEach((hour) => {
       const date = hour.split("T")[0];
       const time = hour.split("T")[1];
-      timeLabels.push(`${date} ${time}`);
+      const label = `${date} ${time}`;
+      console.log("label", label);
+      if (label === latestHour) start = true;
+      if (start) {
+        timeLabels.push(`${date} ${time}`);
+      }
     });
 
     const forecast: SingleWeatherLineType = {};

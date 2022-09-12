@@ -1,4 +1,6 @@
-// now must be formatted like 2022-09-10 15:30
-export const getLatestHour = (now: string): string => {
+import { getFormattedTimeNow } from "./getFormattedTimeNow";
+
+export const getLatestHour = (): string => {
+  const now = getFormattedTimeNow()
   return now.replace(/..$/, "00");
 };
