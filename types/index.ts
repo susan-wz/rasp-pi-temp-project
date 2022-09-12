@@ -9,4 +9,27 @@ export interface PageProps {
 
 export type SheetDataType = string[][] | undefined | null;
 
-export type SingleWeatherLineType = Array<{}>
+export type SingleWeatherLineType = { [key: string]: number }[];
+
+export interface WorldWeatherHour {
+  time: string;
+  tempC: string;
+}
+
+export interface WorldWeatherDate {
+  date: string;
+  hourly: WorldWeatherHour[];
+}
+
+export interface WorldWeatherResponse {
+  data: {
+    weather: WorldWeatherDate[];
+  };
+}
+
+export interface OpenMeteoResponse {
+  hourly: {
+    time: string[]
+    temperature_2m: number[]
+  }
+}
