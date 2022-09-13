@@ -19,6 +19,13 @@ export interface TempChartProps {
   insideForecastTemp: SingleWeatherLineType
 }
 
+export interface HumidityChartProps {
+  loggedHumidity: SingleWeatherLineType
+  forecastHumidity: SingleWeatherLineType
+  historicalHumidity: SingleWeatherLineType
+  insideForecastHumidity: SingleWeatherLineType
+}
+
 export type SingleWeatherLineType = { [key: string]: number };
 
 export interface WorldWeatherHour {

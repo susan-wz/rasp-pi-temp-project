@@ -69,7 +69,7 @@ export function TemperatureChart({
     labels,
     datasets: [
       {
-        label: "Logged Temperature",
+        label: "Living Room Temperature",
         data: loggedTempLine,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
@@ -77,7 +77,16 @@ export function TemperatureChart({
         pointRadius: 2
       },
       {
-        label: "Historical Temperature",
+        label: "Living Room Forecast",
+        data: insideForecastLine,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        lineTension: 0.4,
+        pointRadius: 2,
+        borderDash: [4, 8],
+      },
+      {
+        label: "Outside Temperature",
         data: historicalTempLine,
         borderColor: "blue",
         backgroundColor: "blue",
@@ -89,15 +98,6 @@ export function TemperatureChart({
         data: forecastTempLine,
         borderColor: "blue",
         backgroundColor: "blue",
-        lineTension: 0.4,
-        pointRadius: 2,
-        borderDash: [4, 8],
-      },
-      {
-        label: "Inside Forecast",
-        data: insideForecastLine,
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
         lineTension: 0.4,
         pointRadius: 2,
         borderDash: [4, 8],

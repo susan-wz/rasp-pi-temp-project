@@ -9,6 +9,8 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { getLabelsArray } from "../../utils/getLabelsArray";
+import { HumidityChartProps } from '../../types'
 
 ChartJS.register(
   CategoryScale,
@@ -20,7 +22,12 @@ ChartJS.register(
   Legend
 );
 
-export function HumidityChart({ sheetData }: any) {
+export function HumidityChart({
+  loggedHumidity,
+  forecastHumidity,
+  historicalHumidity,
+  insideForecastHumidity,
+}: HumidityChartProps) {
   const options = {
     responsive: true,
     plugins: {
@@ -37,14 +44,18 @@ export function HumidityChart({ sheetData }: any) {
     },
   };
 
-  const labels: any[] = []
+  const labels = getLabelsArray();
+
+  const loggedHumidityLine = labels.map((label) => {
+    return loggedHumidity[label];
+  });
 
   const data = {
     labels,
     datasets: [
       {
-        label: "Humidity",
-        data: [],
+        label: "Living Room Humidity",
+        data: loggedHumidityLine,
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
         lineTension: 0.4,
