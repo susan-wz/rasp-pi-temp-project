@@ -9,8 +9,6 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { SheetDataProps } from "../../types";
-import { getHourlyDataForDateRange } from "../../utils/getHourlyDataForDateRange";
 
 ChartJS.register(
   CategoryScale,
@@ -22,7 +20,7 @@ ChartJS.register(
   Legend
 );
 
-export function HumidityChart({ sheetData }: SheetDataProps) {
+export function HumidityChart({ sheetData }: any) {
   const options = {
     responsive: true,
     plugins: {
@@ -39,24 +37,17 @@ export function HumidityChart({ sheetData }: SheetDataProps) {
     },
   };
 
-  let hourlyData
-  if (sheetData) {
-    hourlyData = getHourlyDataForDateRange(sheetData);
-  }
-
-  const labels = hourlyData?.map((entry) => {
-    return `${entry[0]} ${entry[1]}`;
-  });
+  const labels: any[] = []
 
   const data = {
     labels,
     datasets: [
       {
         label: "Humidity",
-        data: hourlyData?.map((entry) => entry[3]),
+        data: [],
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
-        lineTension: 0.4
+        lineTension: 0.4,
       },
     ],
   };
