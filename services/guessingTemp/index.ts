@@ -18,15 +18,15 @@ export const getInsideForecastGuess = (
   times.forEach((time) => {
     const averageVsOutsideDiff = loggedMeanTemp - forecastTemp[time];
     switch (true) {
-      case averageVsOutsideDiff >= -2 && averageVsOutsideDiff <= 2:
+      case averageVsOutsideDiff >= -2 && averageVsOutsideDiff <= 1: // 24 - 27
         guessForecasts[time] = forecastTemp[time] + 1;
         break;
-      case averageVsOutsideDiff > 2:
+      case averageVsOutsideDiff > 1: // below 24
         guessForecasts[time] =
-          forecastTemp[time] + averageVsOutsideDiff / 2 + 2;
+          forecastTemp[time] + averageVsOutsideDiff - (averageVsOutsideDiff / 3) + 2;
         break;
-      case averageVsOutsideDiff < 2:
-        guessForecasts[time] = forecastTemp[time] - averageVsOutsideDiff / 3;
+      case averageVsOutsideDiff < -2: // above 27
+        guessForecasts[time] = forecastTemp[time] - averageVsOutsideDiff / 2;
         break;
     }
     if (guessForecasts[time] <= 20) guessForecasts[time] = 20;

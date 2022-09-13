@@ -9,7 +9,7 @@ const formatHourToString = (hour: number): string => {
 };
 
 export const getLabelsArray = (): string[] => {
-  const daysBeforeAfter = 3;
+  const daysBeforeAfter = 4;
   let dates: string[] = [];
   const now = new Date();
   const startDate = addDays(now, -daysBeforeAfter);
