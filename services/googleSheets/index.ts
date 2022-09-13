@@ -4,7 +4,13 @@ import { SingleWeatherLineType, WeatherServiceResponse } from "../../types";
 export const getGoogleSheetData = async (): Promise<
   WeatherServiceResponse | undefined
 > => {
+  const privateKey = JSON.parse(process.env.PRIVATE_KEY || '');
+  const clientEmail = process.env.CLIENT_EMAIL;
   const auth = await google.auth.getClient({
+    credentials: {
+      client_email: clientEmail,
+      private_key: privateKey
+    },
     scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
   });
 
