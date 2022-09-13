@@ -34,12 +34,12 @@ export const getGoogleSheetData = async (): Promise<
   if (hourlyData) {
     hourlyData.forEach((log) => {
       const time = `${log[0]} ${log[1]}`;
-      tempLogs[time] = parseInt(log[2]);
+      tempLogs[time] = parseFloat(log[2]);
     });
 
     hourlyData.forEach((log) => {
       const time = `${log[0]} ${log[1]}`;
-      humidityLogs[time] = parseInt(log[3]);
+      humidityLogs[time] = parseFloat(log[3]);
     });
   }
 
