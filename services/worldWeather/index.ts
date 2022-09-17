@@ -12,9 +12,12 @@ export const getHistoricalWeather = async (): Promise<
   const response = await worldWeather(worldWeatherUrl);
 
   const weatherData = response?.data?.weather;
+
   const historicalWeather: SingleWeatherLineType = {};
-  let stop = false; // stops historical at current time, otherwise returns til the end of day
+  const historicalHumidity: SingleWeatherLineType = {};
   const latestHour = getLatestHour();
+
+  let stop = false; // stops historical at current time, otherwise returns til the end of day
   if (weatherData) {
     weatherData.forEach((day) => {
       day.hourly.forEach((hour) => {
@@ -24,11 +27,13 @@ export const getHistoricalWeather = async (): Promise<
             .padStart(2, "0")}:00`;
           if (label === latestHour) stop = true;
           const temp = parseInt(hour.tempC);
+          const humidity = parseInt(hour.humidity);
           historicalWeather[label] = temp;
+          historicalHumidity[label] = humidity;
         }
       });
     });
 
-    return { temp: historicalWeather, humidity: {} };
+    return { temp: historicalWeather, humidity: historicalHumidity };
   }
 };

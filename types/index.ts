@@ -31,6 +31,7 @@ export type SingleWeatherLineType = { [key: string]: number };
 export interface WorldWeatherHour {
   time: string;
   tempC: string;
+  humidity: string;
 }
 
 export interface WorldWeatherDate {
@@ -48,5 +49,6 @@ export interface OpenMeteoResponse {
   hourly: {
     time: string[];
     temperature_2m: number[];
+    relativehumidity_2m: number[]
   };
 }

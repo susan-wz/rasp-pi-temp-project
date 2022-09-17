@@ -9,8 +9,9 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { HumidityChartProps } from "../../types";
 import { getLabelsArray } from "../../utils/getLabelsArray";
-import { HumidityChartProps } from '../../types'
+import { getLatestHour } from "../../utils/getLatestHour";
 
 ChartJS.register(
   CategoryScale,
@@ -49,6 +50,20 @@ export function HumidityChart({
   const loggedHumidityLine = labels.map((label) => {
     return loggedHumidity[label];
   });
+  const historicalHumidityLine = labels.map((label) => {
+    return historicalHumidity[label];
+  });
+  const forecastHumidityLine = labels.map((label) => {
+    return forecastHumidity[label];
+  });
+  const insideForecastLine = labels.map((label) => {
+    return insideForecastHumidity[label];
+  });
+
+  const nowIndex = labels.findIndex((label) => label === getLatestHour());
+  if (nowIndex !== -1) {
+    labels[nowIndex] = "Now";
+  }
 
   const data = {
     labels,
@@ -56,9 +71,36 @@ export function HumidityChart({
       {
         label: "Living Room Humidity",
         data: loggedHumidityLine,
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
         lineTension: 0.4,
+        pointRadius: 2
+      },
+      {
+        label: "Living Room Humidity Forecast",
+        data: insideForecastLine,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        lineTension: 0.4,
+        pointRadius: 2,
+        borderDash: [4, 8],
+      },
+      {
+        label: "Outside Humidity",
+        data: historicalHumidityLine,
+        borderColor: "blue",
+        backgroundColor: "blue",
+        lineTension: 0.4,
+        pointRadius: 2
+      },
+      {
+        label: "Outside Humidity Forecast",
+        data: forecastHumidityLine,
+        borderColor: "blue",
+        backgroundColor: "blue",
+        lineTension: 0.4,
+        pointRadius: 2,
+        borderDash: [4, 8],
       },
     ],
   };

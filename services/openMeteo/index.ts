@@ -11,8 +11,8 @@ export const getForecast = async (): Promise<
   const response = await openMeteo(FORECAST_API_URL);
   const timeLabels: string[] = [];
   const latestHour = getLatestHour();
-  let start = false;
 
+  let start = false;
   if (response) {
     response.hourly.time.forEach((hour) => {
       const date = hour.split("T")[0];
@@ -24,10 +24,12 @@ export const getForecast = async (): Promise<
       }
     });
 
-    const forecast: SingleWeatherLineType = {};
+    const tempLogs: SingleWeatherLineType = {};
+    const humidityLogs: SingleWeatherLineType = {};
     timeLabels.forEach((time, index) => {
-      forecast[time] = response.hourly.temperature_2m[index];
+      tempLogs[time] = response.hourly.temperature_2m[index];
+      humidityLogs[time] = response.hourly.relativehumidity_2m[index];
     });
-    return { temp: forecast, humidity: {} };
+    return { temp: tempLogs, humidity: humidityLogs };
   }
 };
