@@ -82,7 +82,7 @@ export function TemperatureChart({
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
         lineTension: 0.4,
-        pointRadius: 2,
+        pointRadius: 0,
         borderDash: [4, 8],
       },
       {
@@ -99,7 +99,7 @@ export function TemperatureChart({
         borderColor: "blue",
         backgroundColor: "blue",
         lineTension: 0.4,
-        pointRadius: 2,
+        pointRadius: 0,
         borderDash: [4, 8],
       },
     ],

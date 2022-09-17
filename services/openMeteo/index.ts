@@ -12,13 +12,17 @@ export const getForecast = async (): Promise<
   const timeLabels: string[] = [];
   const latestHour = getLatestHour();
 
-  let start = false;
+  let start = false; // starts it at the latest hour instead of the start of the day
+  let startIndex = 0;
   if (response) {
-    response.hourly.time.forEach((hour) => {
+    response.hourly.time.forEach((hour, index) => {
       const date = hour.split("T")[0];
       const time = hour.split("T")[1];
       const label = `${date} ${time}`;
-      if (label === latestHour) start = true;
+      if (label === latestHour) {
+        start = true;
+        startIndex = index;
+      }
       if (start) {
         timeLabels.push(`${date} ${time}`);
       }
@@ -26,9 +30,11 @@ export const getForecast = async (): Promise<
 
     const tempLogs: SingleWeatherLineType = {};
     const humidityLogs: SingleWeatherLineType = {};
+    const tempFromLatestHour = response.hourly.temperature_2m.slice(startIndex)
+    const humidityFromLatestHour = response.hourly.relativehumidity_2m.slice(startIndex)
     timeLabels.forEach((time, index) => {
-      tempLogs[time] = response.hourly.temperature_2m[index];
-      humidityLogs[time] = response.hourly.relativehumidity_2m[index];
+      tempLogs[time] = tempFromLatestHour[index];
+      humidityLogs[time] = humidityFromLatestHour[index];
     });
     return { temp: tempLogs, humidity: humidityLogs };
   }
