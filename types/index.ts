@@ -5,6 +5,12 @@ export interface PageProps {
   insideForecastGuess: WeatherServiceResponse
 }
 
+export interface IntroProps {
+  latestHour: string;
+  latestTemp: number;
+  latestHumidity: number;
+}
+
 export type SheetDataType = string[][] | undefined | null;
 
 export type WeatherServiceResponse = {
